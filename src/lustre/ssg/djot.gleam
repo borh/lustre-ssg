@@ -240,6 +240,15 @@ fn render_block(
     jot.ThematicBreak -> {
       renderer.thematicbreak
     }
+
+    jot.RawBlock(content) -> {
+      renderer.text(content)
+    }
+
+    jot.BulletList(_layout, _style, _items) -> {
+      renderer.text("BulletList")
+      // TODO
+    }
   }
 }
 
@@ -284,6 +293,8 @@ fn render_inline(
     }
 
     jot.Footnote(_) -> renderer.text("")
+
+    jot.NonBreakingSpace -> renderer.text(" ")
   }
 }
 
@@ -308,6 +319,7 @@ fn text_content(segments: List(jot.Inline)) -> String {
     jot.Code(content) -> text <> content
     jot.Image(_, _) -> text
     jot.Linebreak -> text
+    jot.NonBreakingSpace -> text
     jot.Footnote(_) -> text
   }
 }
